@@ -55,7 +55,7 @@ ROOT_URLCONF = "focusgreen.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        'DIRS': [BASE_DIR / 'templates'],  # Adequado para estrutura de templates de cada app
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -115,7 +115,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "static/" 
+
+# Diz ao Django onde procurar arquivos estáticos durante o desenvolvimento.
+from pathlib import Path
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

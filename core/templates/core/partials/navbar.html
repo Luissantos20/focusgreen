@@ -1,0 +1,35 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="background-color: #e9f7ef;">
+  <div class="container">
+    <!-- Logotipo -->
+    <a class="navbar-brand fw-bold text-success" href="{% url 'homepage' %}">🌿 FocusGreen</a>
+
+    <!-- Botão mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link text-success" href="{% url 'homepage' %}">Início</a></li>
+        <li class="nav-item"><a class="nav-link text-success" href="#">Dicas Sustentáveis</a></li>
+        <li class="nav-item"><a class="nav-link text-success" href="#">Tracker</a></li>
+        <li class="nav-item"><a class="nav-link text-success" href="#">Dashboard</a></li>
+
+        <!-- Conta -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-success" href="#" id="userMenu" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Conta
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Entrar</a></li>
+            <li><a class="dropdown-item" href="#">Cadastrar</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -24,9 +24,25 @@
             aria-expanded="false">
             Conta
           </a>
+
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Entrar</a></li>
-            <li><a class="dropdown-item" href="#">Cadastrar</a></li>
+
+            {% if user.is_authenticated %}
+              <!-- Usuário logado -->
+              <li>
+                <span class="dropdown-item-text">
+                  👋 Olá, <strong>{{ user.username }}</strong>!
+                </span>
+              </li>
+              <li><a class="dropdown-item" href="{% url 'profile' %}">Minha conta</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Sair</a></li>
+            {% else %}
+              <!-- Usuário anônimo -->
+              <li><a class="dropdown-item" href="{% url 'login' %}">Entrar</a></li>
+              <li><a class="dropdown-item" href="{% url 'register' %}">Cadastrar</a></li>
+            {% endif %}
+
           </ul>
         </li>
       </ul>

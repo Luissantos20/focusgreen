@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Minha Conta</h2>
+<p>Bem-vindo, {{ user.username }}!</p>
+<a href="{% url 'logout' %}">Sair</a>
+{% endblock %}

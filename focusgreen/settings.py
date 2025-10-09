@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "core", # App Principal
+    "accounts", 
 ]
 
 MIDDLEWARE = [
@@ -55,7 +56,7 @@ ROOT_URLCONF = "focusgreen.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [BASE_DIR / 'templates'],  # Adequado para estrutura de templates de cada app
+        'DIRS': [BASE_DIR / 'templates'],  # Adequado para estrutura de templates de cada app. ( app/templates/app)
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -79,6 +80,15 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# ==============================================
+# ⚙️ Configurações de autenticação (accounts) 
+# Úteis devido ao uso de CBV(LoginView e LogoutView)
+# ==============================================
+LOGIN_REDIRECT_URL = 'profile'  # para onde vai após login bem-sucedido
+LOGOUT_REDIRECT_URL = 'login'   # para onde vai após logout
+LOGIN_URL = 'login'             # usado pelo @login_required
+
 
 
 # Password validation
@@ -117,9 +127,7 @@ USE_TZ = True
 
 STATIC_URL = "static/" 
 
-# Diz ao Django onde procurar arquivos estáticos durante o desenvolvimento.
-from pathlib import Path
-
+# Arquivos estáticos 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]

@@ -21,7 +21,7 @@
         {% endif %}
 
         {% if user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link text-success" href="#">Tracker</a></li>
+          <li class="nav-item"><a class="nav-link text-success" href="{% url 'tracker' %}">Tracker</a></li>
           <li class="nav-item"><a class="nav-link text-success" href="#">Dashboard</a></li>
         {% endif %}
 

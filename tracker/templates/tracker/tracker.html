@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load tz %}  {# carrega as funções de timezone #}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">⏱️ Registro de Tempo de Tela</h2>
+
+    <!-- Formulário -->
+    <div class="card shadow p-4 mb-5">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_minutes" class="form-label">Minutos</label>
+                {{ form.minutes }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_category" class="form-label">Categoria</label>
+                {{ form.category }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_note" class="form-label">Observações</label>
+                {{ form.note }}
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Registrar Tempo</button>
+        </form>
+    </div>
+
+    <!-- Histórico -->
+    <h3 class="mb-3">📋 Registros Recentes</h3>
+
+    {% if entries %}
+        <table class="table table-striped table-bordered">
+            <thead class="table-success">
+                <tr>
+                    <th>Data</th>
+                    <th>Minutos</th>
+                    <th>Categoria</th>
+                    <th>Observações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                    <tr>
+                        <td>{{ entry.started_at|localtime|date:"d/m/Y H:i" }}</td>
+                        <td>{{ entry.minutes }}</td>
+                        <td>
+                            {% if entry.category == "PROD" %}
+                                <span class="badge bg-success">Produtivo</span>
+                            {% else %}
+                                <span class="badge bg-danger">Não Produtivo</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ entry.note|default:"—" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted">Nenhum registro ainda. Comece registrando seu primeiro tempo!</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -12,17 +12,17 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
-<body style="background-color: #fdfdfd;">
+<body style="padding-top: 70px; background-color: #fdfdfd; min-height: 100vh; display: flex; flex-direction: column;">
 
     <!-- Navbar global -->
     {% include 'core/partials/navbar.html' %}
 
     <!-- Conteúdo dinâmico -->
-    <main>
+    <main style="flex: 1;">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Rodapé -->
+    <!-- Rodapé fixado -->
     <footer class="text-center py-4 mt-5" style="background-color: #e9f7ef;">
         <small class="text-success">
             © 2025 FocusGreen — promovendo equilíbrio digital e sustentabilidade 🌱

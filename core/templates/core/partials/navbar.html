@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="background-color: #e9f7ef;">
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top" style="background-color: #e9f7ef; z-index: 1030;">
   <div class="container">
     <!-- Logotipo -->
     <a class="navbar-brand fw-bold text-success" href="{% url 'homepage' %}">🌿 FocusGreen</a>
@@ -14,9 +14,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link text-success" href="{% url 'homepage' %}">Início</a></li>
-        <li class="nav-item"><a class="nav-link text-success" href="#">Dicas Sustentáveis</a></li>
-        <li class="nav-item"><a class="nav-link text-success" href="#">Tracker</a></li>
-        <li class="nav-item"><a class="nav-link text-success" href="#">Dashboard</a></li>
+        {% if user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link text-success" href="#">Dicas Sustentáveis Personalizadas</a></li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link text-success" href="#">Dicas Sustentáveis</a></li>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link text-success" href="#">Tracker</a></li>
+          <li class="nav-item"><a class="nav-link text-success" href="#">Dashboard</a></li>
+        {% endif %}
 
         <!-- Conta -->
         <li class="nav-item dropdown">
@@ -26,7 +33,6 @@
           </a>
 
           <ul class="dropdown-menu dropdown-menu-end">
-
             {% if user.is_authenticated %}
               <!-- Usuário logado -->
               <li>
@@ -49,7 +55,6 @@
               <li><a class="dropdown-item" href="{% url 'login' %}">Entrar</a></li>
               <li><a class="dropdown-item" href="{% url 'register' %}">Cadastrar</a></li>
             {% endif %}
-
           </ul>
         </li>
       </ul>

@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Minha Conta</h2>
-<p>Bem-vindo, {{ user.username }}!</p>
-<a href="{% url 'logout' %}">Sair</a>
+  <h2>Minha Conta</h2>
+  <p>Bem-vindo, {{ user.username }}!</p>
+
+  <form action="{% url 'logout' %}" method="post" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger">Sair</button>
+  </form>
 {% endblock %}
+

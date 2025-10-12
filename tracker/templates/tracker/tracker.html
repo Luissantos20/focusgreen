@@ -1,12 +1,62 @@
 {% extends 'base.html' %}
-{% load tz %}  {# carrega as funções de timezone #}
+{% load tz %}
+{% load static %}
+{% load time_format %}
+
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">⏱️ Registro de Tempo de Tela</h2>
+    <h2 class="text-center mb-4">⏱️ Timer de Tempo de Tela</h2>
 
-    <!-- Formulário -->
+    <!-- ===================================================== -->
+    <!-- ÁREA DE MENSAGENS DJANGO -->
+    <!-- ===================================================== -->
+    <div id="flash-messages" class="position-relative mb-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- TIMER INTERATIVO -->
+    <!-- ===================================================== -->
     <div class="card shadow p-4 mb-5">
+        <h5 class="mb-3">Timer de Foco</h5>
+
+        <div class="display-4 text-center mb-3" id="fg-timer-display">00:00</div>
+
+        <div class="d-flex justify-content-center gap-2 mb-3">
+            <button type="button" id="fg-start" class="btn btn-success">Iniciar</button>
+            <button type="button" id="fg-pause" class="btn btn-warning">Pausar</button>
+            <button type="button" id="fg-stop" class="btn btn-danger">Parar & Salvar</button>
+            <button type="button" id="fg-reset" class="btn btn-secondary">Zerar</button>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Categoria</label>
+                <select id="fg-category" class="form-select">
+                    <option value="PROD">Produtivo</option>
+                    <option value="NAO_PROD">Não Produtivo</option>
+                </select>
+            </div>
+            <div class="col-md-8">
+                <label class="form-label">Observação (opcional)</label>
+                <input id="fg-note" type="text" class="form-control" placeholder="Ex.: Sessão de estudo de Python">
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- FORMULÁRIO MANUAL -->
+    <!-- ===================================================== -->
+    <div class="card shadow p-4 mb-5">
+        <h2 class="text-center mb-4">⏱️ Registro Manual</h2>
         <form method="POST">
             {% csrf_token %}
             <div class="mb-3">
@@ -28,8 +78,10 @@
         </form>
     </div>
 
-    <!-- Histórico -->
-    <h3 class="mb-3">📋 Registros Recentes</h3>
+    <!-- ===================================================== -->
+    <!-- HISTÓRICO -->
+    <!-- ===================================================== -->
+    <h2 class="text-center mb-4">📋 Registros Recentes</h2>
 
     {% if entries %}
         <table class="table table-striped table-bordered">
@@ -41,11 +93,11 @@
                     <th>Observações</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="fg-history-body">
                 {% for entry in entries %}
                     <tr>
                         <td>{{ entry.started_at|localtime|date:"d/m/Y H:i" }}</td>
-                        <td>{{ entry.minutes }}</td>
+                        <td>{{ entry.minutes|format_minutes }}</td>
                         <td>
                             {% if entry.category == "PROD" %}
                                 <span class="badge bg-success">Produtivo</span>
@@ -62,4 +114,12 @@
         <p class="text-muted">Nenhum registro ainda. Comece registrando seu primeiro tempo!</p>
     {% endif %}
 </div>
+
+<!-- ===================================================== -->
+<!-- SCRIPTS -->
+<!-- ===================================================== -->
+<script>
+  window.FG_ADD_ENTRY_URL = "{% url 'add_entry' %}";
+</script>
+<script src="{% static 'tracker/timer.js' %}"></script>
 {% endblock %}

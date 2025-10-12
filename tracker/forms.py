@@ -1,7 +1,7 @@
 from django import forms
 from .models import ScreenTimeEntry
 
-# transforma o que o usuário digita em dados validados e prontos pra salvar no modelo,
+# Transforma o que o usuário digita em dados validados e prontos pra salvar no modelo,
 # e também gera automaticamente o HTML do formulário.
 class ScreenTimeEntryForm(forms.ModelForm):
     class Meta:

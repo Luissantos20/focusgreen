@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  /* === Ajuste de proporção entre gráficos === */
+  .chart-container {
+    height: 220px;
+    max-height: 240px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Gráficos donut ficam menores e centralizados */
+  .chart-donut {
+    max-width: 85%;
+    max-height: 200px;
+    margin: 0 auto;
+  }
+
+  /* Cards uniformes */
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  h5 {
+    color: #2e7d32;
+    font-weight: 600;
+  }
+
+  .text-muted {
+    color: #6c757d !important;
+  }
+</style>
+
+<div class="container py-4">
+  <h2 class="mb-3">📊 Meu Dashboard</h2>
+  <p class="text-muted">Diário e Semanal</p>
+
+  <!-- === Linha 1: KPIs do dia === -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card p-3 h-100 text-center">
+        <div class="small text-muted">Total (hoje)</div>
+        <div class="fs-3">{{ minutes_total_day }} min</div>
+        <div class="small">Prod: {{ minutes_prod_day }} · Não prod: {{ minutes_nao_day }}</div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-3 h-100 text-center">
+        <div class="small text-muted">Meta diária (NAO_PROD)</div>
+        <div class="fs-3">{{ daily_np_goal }} min</div>
+        <div class="small">
+          {% if minutes_nao_day <= daily_np_goal %}
+            ✅ Dentro da meta
+          {% else %}
+            ⚠️ Acima da meta
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-3 h-100 text-center">
+        <div class="small text-muted">Streak (dias na meta)</div>
+        <div class="fs-3">{{ streak_days }}</div>
+        <div class="small">consecutivos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === Linha 2: KPIs Semanais === -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card p-3 h-100 text-center">
+        <div class="small text-muted">Semana — Total</div>
+        <div class="fs-3">{{ minutes_total_week }} min</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3 h-100 text-center">
+        <div class="small text-muted">Semana — Produtivo</div>
+        <div class="fs-3">{{ minutes_prod_week }} min</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3 h-100 text-center">
+        <div class="small text-muted">Semana — Não produtivo</div>
+        <div class="fs-3">{{ minutes_nao_week }} min</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === Linha 3: Gráficos de tempo === -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card p-3 h-100">
+        <h5 class="mb-3">Uso diário</h5>
+        <div class="chart-container">
+          <canvas id="fg-chart-day" class="chart-donut"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3 h-100">
+        <h5 class="mb-3">Últimos 7 dias</h5>
+        <div class="chart-container">
+          <canvas id="fg-chart-7d"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === Linha 4: Gráficos de CO₂ === -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card p-3 h-100">
+        <h5 class="mb-3">Pegada Digital — CO₂ diário (g)</h5>
+        <div class="chart-container">
+          <canvas id="co2-chart-day" class="chart-donut"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3 h-100">
+        <h5 class="mb-3">Pegada Digital — CO₂ semanal (g)</h5>
+        <div class="chart-container">
+          <canvas id="co2-chart-week"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-muted small text-center mt-2">
+    🌍 Estimativa educacional: 1h de uso não produtivo ≈ {{ co2_factor }}g de CO₂ digital.
+  </p>
+</div>
+
+<!-- Dados seguros (JSON) -->
+{{ day_chart_data|json_script:"day-data" }}
+{{ series_7d|json_script:"series7d-data" }}
+{{ series_co2_day|json_script:"series-co2-day" }}
+{{ series_co2_week|json_script:"series-co2-week" }}
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+(function() {
+  // === Gráfico de uso diário ===
+  const dayData = JSON.parse(document.getElementById('day-data').textContent);
+  const ctxDay = document.getElementById('fg-chart-day').getContext('2d');
+  new Chart(ctxDay, {
+    type: 'doughnut',
+    data: {
+      labels: ['Produtivo', 'Não Produtivo'],
+      datasets: [{ data: dayData, backgroundColor: ['#4CAF50', '#EF5350'] }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  // === Gráfico semanal (tempo) ===
+  const series = JSON.parse(document.getElementById('series7d-data').textContent);
+  const labels = series.map(p => p.date.substring(8,10) + '/' + p.date.substring(5,7));
+  const prod = series.map(p => p.prod);
+  const nao  = series.map(p => p.nao);
+  const ctxWeek = document.getElementById('fg-chart-7d').getContext('2d');
+  new Chart(ctxWeek, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Produtivo', data: prod, backgroundColor: '#4CAF50', stack: 'stack1' },
+        { label: 'Não produtivo', data: nao, backgroundColor: '#EF5350', stack: 'stack1' }
+      ]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { x: { stacked: true }, y: { stacked: true } } }
+  });
+
+  // === Gráfico CO₂ diário (donut) ===
+  const co2DayData = JSON.parse(document.getElementById('series-co2-day').textContent);
+  const ctxCo2Day = document.getElementById('co2-chart-day').getContext('2d');
+  new Chart(ctxCo2Day, {
+    type: 'doughnut',
+    data: {
+      labels: ['CO₂ gerado (não produtivo)'],
+      datasets: [{ data: co2DayData, backgroundColor: ['#8BC34A'] }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  // === Gráfico CO₂ semanal (barras) ===
+  const co2WeekSeries = JSON.parse(document.getElementById('series-co2-week').textContent);
+  const co2WeekLabels = co2WeekSeries.map(p => p.date.substring(8,10) + '/' + p.date.substring(5,7));
+  const co2WeekValues = co2WeekSeries.map(p => p.co2);
+  const ctxCo2Week = document.getElementById('co2-chart-week').getContext('2d');
+  new Chart(ctxCo2Week, {
+    type: 'bar',
+    data: {
+      labels: co2WeekLabels,
+      datasets: [{ label: 'CO₂ gerado', data: co2WeekValues, backgroundColor: '#8BC34A' }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { title: { display: true, text: 'g de CO₂' } } } }
+  });
+})();
+</script>
+{% endblock %}

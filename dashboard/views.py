@@ -79,7 +79,6 @@ def index(request):
 
 
 # === Endpoint seguro para IA ===
-@csrf_exempt
 @login_required
 def insights_data(request):
     if request.method != 'GET':
@@ -92,5 +91,8 @@ def insights_data(request):
 # === Endpoint auxiliar para gráficos assíncronos ===
 @login_required
 def data_last_7_days(request):
+    if request.method != 'GET':
+        return JsonResponse({'error': 'Método não permitido'}, status=405)
     series = _last_n_days_series(request.user, n=7)
     return JsonResponse({'series': series})
+

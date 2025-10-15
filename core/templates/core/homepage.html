@@ -1,133 +1,147 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Início — FocusGreen{% endblock %}
+
 {% block content %}
 
-<!-- Seção Hero -->
-<section class="text-center py-5" style="background: linear-gradient(135deg, #d9fdd3, #e9f7ef);">
+<!-- ===================================================== -->
+<!-- 🌿 HERO SECTION -->
+<!-- ===================================================== -->
+<section class="hero-section py-5" style="background: linear-gradient(135deg, #a8e6a3, #dff7d5);">
+  <div class="container py-4">
+    <div class="row align-items-center flex-column-reverse flex-md-row">
+      
+      <!-- Texto -->
+      <div class="col-12 col-md-6 text-center text-md-start mt-4 mt-md-0">
+        <h1 class="fw-bold text-success mb-3 display-6">
+          🍃 Viva um Tempo Digital Sustentável
+        </h1>
+        <p class="lead text-dark mb-4">
+          Equilibre <strong>foco, bem-estar</strong> e <strong>sustentabilidade digital</strong> com o <strong>FocusGreen</strong> — 
+          uma plataforma que te ajuda a usar a tecnologia com consciência e propósito.
+        </p>
+
+        <ul class="list-unstyled text-dark mb-4 fs-5">
+          <li class="mb-2">🌱 <strong>Reduza distrações</strong> e recupere seu tempo e energia.</li>
+          <li class="mb-2">🌍 <strong>Entenda seu impacto digital</strong> e aprenda a equilibrar mente e meio ambiente.</li>
+          <li class="mb-2">🤖 <strong>Conte com o Assistente Sustentável de IA</strong>: receba dicas personalizadas, lembretes e microtarefas
+            que promovem foco, descanso e consumo digital responsável.</li>
+        </ul>
+
+        <p class="text-muted fs-6 mb-4">
+          Nosso assistente inteligente aprende com o seu ritmo e oferece sugestões práticas para você melhorar seu foco e reduzir o estresse — tudo isso contribuindo para um planeta mais verde. 🌎
+        </p>
+
+        <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-md-start gap-3">
+          {% if user.is_authenticated %}
+            <a href="{% url 'tracker' %}" class="btn btn-success btn-lg shadow-sm w-100 w-sm-auto">
+              Comece Agora
+            </a>
+          {% else %}
+            <a href="{% url 'register' %}" class="btn btn-success btn-lg shadow-sm w-100 w-sm-auto">
+              Comece Agora
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Imagem -->
+      <div class="col-12 col-md-6 text-center mb-4 mb-md-0">
+        <img src="{% static 'img/hero-balance.webp' %}" 
+             alt="Pessoa em equilíbrio digital com apoio de IA sustentável"
+             class="img-fluid rounded-4 shadow-sm mx-auto d-block"
+             style="max-width: 90%; height: auto;">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ===================================================== -->
+<!-- ⚙️ FUNCIONALIDADES -->
+<!-- ===================================================== -->
+<section id="funcionalidades" class="py-5" style="background-color: #f5f9f2;">
   <div class="container">
-    <h1 class="fw-bold text-success mb-3">🌿 Viva um Tempo Digital Sustentável</h1>
-    <p class="lead text-secondary mx-auto" style="max-width: 750px;">
-      Cada toque na tela tem um custo — para sua mente e para o planeta.  
-      O <strong>FocusGreen</strong> nasceu para promover um estilo de vida digital mais equilibrado,  
-      onde bem-estar e sustentabilidade caminham juntos.
-    </p>
-    <a href="{% url 'register' %}" class="btn btn-success btn-lg mt-3">Comece sua jornada verde digital</a>
-  </div>
-</section>
+    <div class="row align-items-center flex-column flex-md-row">
+      
+      <!-- Imagem -->
+      <div class="col-12 col-md-6 text-center mb-4 mb-md-0">
+        <img src="{% static 'img/tools-overview.webp' %}" 
+             alt="Ferramentas FocusGreen"
+             class="img-fluid rounded-4 shadow-sm mx-auto"
+             style="max-width: 90%; height: auto;">
+      </div>
 
-<!-- Conceito: O que é Tempo Digital Sustentável -->
-<section class="py-5">
-  <div class="container text-center">
-    <h2 class="text-success fw-bold mb-4">🧘‍♀️ O que é Tempo Digital Sustentável?</h2>
-    <p class="text-muted mx-auto mb-5" style="max-width: 800px;">
-      É o uso equilibrado e consciente da tecnologia — cuidando da mente e do meio ambiente.  
-      Cada hora online consome energia e emite CO₂. Nosso objetivo é transformar hábitos e criar uma relação mais saudável com o digital.
-    </p>
-
-    <div class="row">
-      <div class="col-md-4 mb-4">
-        <h5 class="text-success fw-bold">🌱 Consciência Digital</h5>
-        <p class="text-secondary">
-          Use a tecnologia com propósito. Menos distração, mais foco e conexão real.
+      <!-- Texto -->
+      <div class="col-12 col-md-6 text-center text-md-start">
+        <h2 class="text-success fw-bold mb-3 fs-2">⚙️ Suas ferramentas para um digital consciente</h2>
+        <p class="text-dark mb-4 fs-5">
+          O <strong>FocusGreen</strong> oferece três ferramentas que ajudam você a entender, equilibrar e melhorar sua relação com o mundo digital.
         </p>
-      </div>
-      <div class="col-md-4 mb-4">
-        <h5 class="text-success fw-bold">💨 Pegada de Carbono Digital</h5>
-        <p class="text-secondary">
-          Cada dado transferido gasta energia. O FocusGreen te ajuda a compreender e reduzir seu impacto digital.
-        </p>
-      </div>
-      <div class="col-md-4 mb-4">
-        <h5 class="text-success fw-bold">🌍 Bem-estar e Sustentabilidade</h5>
-        <p class="text-secondary">
-          Saúde mental e sustentabilidade caminham juntas. Equilíbrio digital é autocuidado e respeito ao planeta.
-        </p>
+
+        <ul class="text-dark mb-4 list-unstyled fs-5">
+          <li class="mb-2">⏱️ <strong>Tracker</strong>: monitore seu tempo e descubra onde sua energia digital é investida.</li>
+          <li class="mb-2">📊 <strong>Dashboard</strong>: visualize seu progresso e entenda sua pegada de carbono digital.</li>
+          <li class="mb-2">💬 <strong>Assistente Sustentável</strong>: receba insights personalizados e microdicas para viver melhor.</li>
+        </ul>
+
       </div>
     </div>
   </div>
 </section>
 
-<!-- Relação com os ODS -->
-<section class="py-5 bg-light">
-  <div class="container text-center">
-    <h2 class="text-success fw-bold mb-4">🌍 Como o FocusGreen apoia os ODS</h2>
-    <p class="text-muted mx-auto mb-5" style="max-width: 800px;">
-      Nosso compromisso vai além do bem-estar digital.  
-      Cada funcionalidade do FocusGreen está alinhada aos Objetivos de Desenvolvimento Sustentável da ONU,  
-      mostrando que a mudança começa em pequenas ações diárias.
-    </p>
 
-    <div class="row gy-4">
-      <div class="col-md-4">
-        <div class="p-3 border rounded-4 bg-white shadow-sm h-100">
-          <h5 class="text-success">ODS 3 — Saúde e Bem-Estar</h5>
-          <p class="text-secondary">Reduzir o tempo de tela melhora o foco, o sono e o equilíbrio emocional.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="p-3 border rounded-4 bg-white shadow-sm h-100">
-          <h5 class="text-success">ODS 4 — Educação de Qualidade</h5>
-          <p class="text-secondary">Educamos sobre o uso consciente da tecnologia e o impacto ambiental do digital.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="p-3 border rounded-4 bg-white shadow-sm h-100">
-          <h5 class="text-success">ODS 12 — Consumo Responsável</h5>
-          <p class="text-secondary">Promovemos o uso ético e equilibrado de dispositivos e recursos digitais.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-4">
-      <a href="#" class="btn btn-outline-success">Saiba mais sobre o impacto do FocusGreen</a>
-    </div>
-  </div>
-</section>
-
-<!-- Tracker e Dashboard -->
-<section class="py-5" style="background-color: #f4fdf6;">
-  <div class="container text-center">
-    <h2 class="text-success fw-bold mb-4">📲 Suas Ações, Seus Impactos</h2>
-    <p class="text-muted mx-auto mb-5" style="max-width: 800px;">
-      O <strong>Tracker</strong> monitora seu tempo de uso digital, mostrando quanto tempo você dedica a redes sociais, estudos ou trabalho.  
-      Já o <strong>Dashboard</strong> transforma esses dados em consciência: ele calcula sua <em>pegada de carbono digital</em> e  
-      mostra como pequenas mudanças reduzem o impacto ambiental e melhoram sua qualidade de vida.
-    </p>
-
-    <div class="row justify-content-center">
-      <div class="col-md-5 mb-4">
-        <div class="p-4 rounded-4 shadow-sm bg-white h-100">
-          <h4 class="text-success">📆 Tracker</h4>
-          <p class="text-secondary">Acompanhe seu tempo de tela em tempo real. Receba alertas quando ultrapassar limites saudáveis e aprenda a reconectar com o mundo real.</p>
-          <a href="#" class="btn btn-success mt-2">Experimentar o Tracker</a>
-        </div>
-      </div>
-      <div class="col-md-5 mb-4">
-        <div class="p-4 rounded-4 shadow-sm bg-white h-100">
-          <h4 class="text-success">📊 Dashboard</h4>
-          <p class="text-secondary">Visualize seus dados, descubra o impacto ambiental do seu consumo digital e celebre suas conquistas rumo a uma vida mais consciente.</p>
-          <a href="#" class="btn btn-outline-success mt-2">Acessar o Dashboard</a>
-        </div>
-      </div>
-    </div>
-
-    <p class="mt-5 lead text-success fw-semibold">
-      🌱 Pequenas escolhas digitais podem gerar grandes transformações — em você e no planeta.
-    </p>
-  </div>
-</section>
-
-<!-- CTA final -->
-<section class="text-center py-5 bg-success text-white">
+<!-- ===================================================== -->
+<!-- 🌍 TEMPO DIGITAL SUSTENTÁVEL -->
+<!-- ===================================================== -->
+<section class="py-5" style="background: linear-gradient(135deg, #e8f5e9, #f5f9f2);">
   <div class="container">
-    <h2 class="fw-bold mb-3">Junte-se ao Movimento FocusGreen</h2>
-    <p class="lead mb-4">
-      Vamos construir um futuro digital mais leve, humano e sustentável — um clique consciente de cada vez.
+    <div class="row align-items-center flex-column-reverse flex-md-row-reverse">
+
+      <!-- Imagem -->
+      <div class="col-12 col-md-6 text-center mb-4 mb-md-0">
+        <img src="{% static 'img/ods-illustration.webp' %}" 
+             alt="ODS e sustentabilidade digital"
+             class="img-fluid rounded-4 shadow-sm mx-auto"
+             style="max-width: 90%; height: auto;">
+      </div>
+
+      <!-- Texto -->
+      <div class="col-12 col-md-6 text-center text-md-start">
+        <h2 class="text-success fw-bold mb-3 fs-2">🌎 O que é Tempo Digital Sustentável?</h2>
+        <p class="text-dark mb-4 fs-5">
+          É o uso equilibrado e consciente da tecnologia — cuidando da mente e do meio ambiente.
+          Cada hora online consome energia e emite CO₂. Nosso objetivo é transformar hábitos e criar uma relação mais saudável com o digital.
+        </p>
+
+        <h5 class="text-success fw-semibold mb-3 fs-5">💚 Alinhado aos Objetivos de Desenvolvimento Sustentável (ODS)</h5>
+        <ul class="text-dark list-unstyled mb-4 fs-5">
+          <li>✔️ ODS 3 — Saúde e Bem-Estar</li>
+          <li>✔️ ODS 4 — Educação de Qualidade</li>
+          <li>✔️ ODS 12 — Consumo Responsável</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================================================== -->
+<!-- 🌱 CTA FINAL -->
+<!-- ===================================================== -->
+<section class="text-center py-5 m-0" style="background-color: #2e7d32; color: #fefefe; margin-bottom: 0 !important; padding-bottom: 4rem;">
+  <div class="container px-4">
+    <h2 class="fw-bold mb-3 fs-2" style="color: #ffffff;">
+      🌿 Junte-se ao Movimento FocusGreen
+    </h2>
+    <p class="lead mb-4 fs-5" style="color: #e8f5e9;">
+      Construa um futuro digital mais leve, humano e sustentável — um clique consciente de cada vez.
     </p>
     {% if user.is_authenticated %}
-      <a href="#" class="btn btn-light btn-lg">Acesse seu Painel</a>
+      <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg shadow-sm w-100 w-sm-auto">Acesse seu Painel</a>
     {% else %}
-      <a href="{% url 'register' %}" class="btn btn-light btn-lg">Crie sua conta gratuita</a>
+      <a href="{% url 'register' %}" class="btn btn-light btn-lg shadow-sm w-100 w-sm-auto">Crie sua conta gratuita</a>
     {% endif %}
   </div>
 </section>

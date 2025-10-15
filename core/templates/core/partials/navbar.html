@@ -1,5 +1,8 @@
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top" style="background-color: #e9f7ef; z-index: 1030;">
+<!-- ===================================================== -->
+<!-- 🌿 NAVBAR GLOBAL -->
+<!-- ===================================================== -->
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top"
+     style="background-color: #e9f7ef; z-index: 1030;">
   <div class="container">
     <!-- Logotipo -->
     <a class="navbar-brand fw-bold text-success" href="{% url 'homepage' %}">🌿 FocusGreen</a>
@@ -10,53 +13,49 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Links -->
+    <!-- Links principais -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto align-items-center">
         <li class="nav-item"><a class="nav-link text-success" href="{% url 'homepage' %}">Início</a></li>
-        {% if user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link text-success" href="#">Dicas Sustentáveis Personalizadas</a></li>
-        {% else %}
-          <li class="nav-item"><a class="nav-link text-success" href="#">Dicas Sustentáveis</a></li>
-        {% endif %}
 
         {% if user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link text-success" href="{% url 'assistant_index' %}">Assistente</a></li>
           <li class="nav-item"><a class="nav-link text-success" href="{% url 'tracker' %}">Tracker</a></li>
           <li class="nav-item"><a class="nav-link text-success" href="{% url 'dashboard' %}">Dashboard</a></li>
         {% endif %}
 
-        <!-- Conta -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-success" href="#" id="userMenu" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+        <!-- Menu da conta -->
+        <li class="nav-item dropdown ms-2">
+          <a class="nav-link dropdown-toggle text-success" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Conta
           </a>
-
           <ul class="dropdown-menu dropdown-menu-end">
             {% if user.is_authenticated %}
-              <!-- Usuário logado -->
-              <li>
-                <span class="dropdown-item-text">
-                  👋 Olá, <strong>{{ user.username }}</strong>!
-                </span>
-              </li>
+              <li><span class="dropdown-item-text">👋 Olá, <strong>{{ user.username }}</strong>!</span></li>
               <li><a class="dropdown-item" href="{% url 'profile' %}">Minha conta</a></li>
               <li><hr class="dropdown-divider"></li>
               <li>
-                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                <form action="{% url 'logout' %}" method="post">
                   {% csrf_token %}
-                  <button type="submit" class="dropdown-item text-danger" style="border: none; background: none;">
-                    Sair
-                  </button>
+                  <button type="submit" class="dropdown-item text-danger">Sair</button>
                 </form>
               </li>
             {% else %}
-              <!-- Usuário anônimo -->
               <li><a class="dropdown-item" href="{% url 'login' %}">Entrar</a></li>
               <li><a class="dropdown-item" href="{% url 'register' %}">Cadastrar</a></li>
             {% endif %}
           </ul>
         </li>
+
+        <!-- Avatar do usuário (opcional) -->
+        {% if user.is_authenticated %}
+          <li class="nav-item ms-3">
+            <div class="rounded-circle bg-success text-white fw-bold d-flex justify-content-center align-items-center"
+                 style="width: 35px; height: 35px;">
+              {{ user.username|first|upper }}
+            </div>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </div>

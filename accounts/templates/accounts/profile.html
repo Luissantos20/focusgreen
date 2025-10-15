@@ -1,11 +1,21 @@
+<!-- templates/accounts/profile.html -->
 {% extends 'base.html' %}
 {% block content %}
-  <h2>Minha Conta</h2>
-  <p>Bem-vindo, {{ user.username }}!</p>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card p-4 text-center">
+      <h2 class="text-success mb-3">🌱 Minha Conta</h2>
+      <p class="lead">Bem-vindo, <strong>{{ user.username }}</strong>!</p>
 
-  <form action="{% url 'logout' %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-outline-danger">Sair</button>
-  </form>
+      <div class="d-grid gap-2 mt-4">
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-success">Ver meu Dashboard</a>
+        <a href="{% url 'tracker' %}" class="btn btn-outline-secondary">Registrar Tempo</a>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-danger mt-2">Sair</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
-

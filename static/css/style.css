@@ -1,35 +1,11 @@
-/* FocusGreen - estilo base */
-
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #fdfdfd;
-  color: #333;
-}
-
-h1, h2, h3, h4, h5 {
-  font-weight: 600;
-  color: #2d7a46;
-}
-
-.navbar {
-  background-color: #e9f7ef !important;
-}
-
-.btn-success {
-  background-color: #4CAF50;
-  border: none;
-}
-
-.btn-success:hover {
-  background-color: #3e8e41;
-}
-
-/* Espaçamento suave entre seções */
-section {
-  scroll-margin-top: 80px;
-}
-
-/* Rodapé */
-footer {
-  font-size: 0.9rem;
+@media (max-width: 768px) {
+  h1, h2 {
+    font-size: 1.75rem !important;
+  }
+  p.lead {
+    font-size: 1rem;
+  }
+  section {
+    padding: 3rem 1rem !important;
+  }
 }

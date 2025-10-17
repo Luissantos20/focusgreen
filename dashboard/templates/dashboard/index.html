@@ -1,97 +1,67 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load time_format %}
+
+{% block title %}Dashboard — FocusGreen{% endblock %}
 
 {% block content %}
-<style>
-  /* === Ajuste de proporção entre gráficos === */
-  .chart-container {
-    height: 220px;
-    max-height: 240px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* Gráficos donut ficam menores e centralizados */
-  .chart-donut {
-    max-width: 85%;
-    max-height: 200px;
-    margin: 0 auto;
-  }
-
-  /* Cards uniformes */
-  .card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  h5 {
-    color: #2e7d32;
-    font-weight: 600;
-  }
-
-  .text-muted {
-    color: #6c757d !important;
-  }
-</style>
+<link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
 
 <div class="container py-4">
-  <h2 class="mb-3">📊 Meu Dashboard</h2>
-  <p class="text-muted">Diário e Semanal</p>
+  <h2 class="mb-3 text-success fw-bold">📊 Meu Dashboard</h2>
+  <p class="text-muted">Acompanhe seu equilíbrio digital diário e semanal 🌿</p>
 
   <!-- === Linha 1: KPIs do dia === -->
   <div class="row g-3 mb-4">
     <div class="col-md-4">
-      <div class="card p-3 h-100 text-center">
+      <div class="eco-card p-3 text-center {% if minutes_prod_day > minutes_nao_day %}eco-card-highlight{% endif %}">
         <div class="small text-muted">Total (hoje)</div>
-        <div class="fs-3">{{ minutes_total_day }} min</div>
-        <div class="small">Prod: {{ minutes_prod_day }} · Não prod: {{ minutes_nao_day }}</div>
+        <div class="fs-3 fw-bold text-eco-dark">{{ minutes_total_day|format_minutes }}</div>
+        <div class="small">✅ Prod: {{ minutes_prod_day|format_minutes }} · 🚫 Não prod: {{ minutes_nao_day|format_minutes }}</div>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="card p-3 h-100 text-center">
-        <div class="small text-muted">Meta diária (NAO_PROD)</div>
-        <div class="fs-3">{{ daily_np_goal }} min</div>
+      <div class="eco-card p-3 text-center">
+        <div class="small text-muted">Meta diária (não produtivo)</div>
+        <div class="fs-3 fw-bold text-eco-dark">{{ daily_np_goal|format_minutes }}</div>
         <div class="small">
           {% if minutes_nao_day <= daily_np_goal %}
-            ✅ Dentro da meta
+            🌱 <span class="text-success fw-semibold">Dentro da meta</span>
           {% else %}
-            ⚠️ Acima da meta
+            ⚠️ <span class="text-danger fw-semibold">Acima da meta</span>
           {% endif %}
         </div>
       </div>
     </div>
 
     <div class="col-md-4">
-      <div class="card p-3 h-100 text-center">
+      <div class="eco-card p-3 text-center">
         <div class="small text-muted">Streak (dias na meta)</div>
-        <div class="fs-3">{{ streak_days }}</div>
-        <div class="small">consecutivos</div>
+        <div class="fs-3 fw-bold text-eco-dark">{{ streak_days }}</div>
+        <div class="small">🌿 consecutivos</div>
       </div>
     </div>
   </div>
 
-  <!-- === Linha 2: KPIs Semanais === -->
+  <!-- === Linha 2: Semanais === -->
   <div class="row g-3 mb-4">
     <div class="col-md-4">
-      <div class="card p-3 h-100 text-center">
+      <div class="eco-card p-3 text-center">
         <div class="small text-muted">Semana — Total</div>
-        <div class="fs-3">{{ minutes_total_week }} min</div>
+        <div class="fs-3 fw-bold text-eco-dark">{{ minutes_total_week|format_minutes }}</div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card p-3 h-100 text-center">
+      <div class="eco-card p-3 text-center">
         <div class="small text-muted">Semana — Produtivo</div>
-        <div class="fs-3">{{ minutes_prod_week }} min</div>
+        <div class="fs-3 fw-bold text-eco-dark">{{ minutes_prod_week|format_minutes }}</div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card p-3 h-100 text-center">
+      <div class="eco-card p-3 text-center">
         <div class="small text-muted">Semana — Não produtivo</div>
-        <div class="fs-3">{{ minutes_nao_week }} min</div>
+        <div class="fs-3 fw-bold text-eco-dark">{{ minutes_nao_week|format_minutes }}</div>
       </div>
     </div>
   </div>
@@ -99,16 +69,16 @@
   <!-- === Linha 3: Gráficos de tempo === -->
   <div class="row g-3 mb-4">
     <div class="col-md-6">
-      <div class="card p-3 h-100">
-        <h5 class="mb-3">Uso diário</h5>
+      <div class="eco-card p-3 h-100">
+        <h5 class="fw-bold mb-3 text-eco-dark">Uso diário</h5>
         <div class="chart-container">
           <canvas id="fg-chart-day" class="chart-donut"></canvas>
         </div>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="card p-3 h-100">
-        <h5 class="mb-3">Últimos 7 dias</h5>
+      <div class="eco-card p-3 h-100">
+        <h5 class="fw-bold mb-3 text-eco-dark">Últimos 7 dias</h5>
         <div class="chart-container">
           <canvas id="fg-chart-7d"></canvas>
         </div>
@@ -119,16 +89,16 @@
   <!-- === Linha 4: Gráficos de CO₂ === -->
   <div class="row g-3 mb-4">
     <div class="col-md-6">
-      <div class="card p-3 h-100">
-        <h5 class="mb-3">Pegada Digital — CO₂ diário (g)</h5>
+      <div class="eco-card p-3 h-100">
+        <h5 class="fw-bold mb-3 text-eco-dark">Pegada Digital — CO₂ diário (g)</h5>
         <div class="chart-container">
           <canvas id="co2-chart-day" class="chart-donut"></canvas>
         </div>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="card p-3 h-100">
-        <h5 class="mb-3">Pegada Digital — CO₂ semanal (g)</h5>
+      <div class="eco-card p-3 h-100">
+        <h5 class="fw-bold mb-3 text-eco-dark">Pegada Digital — CO₂ semanal (g)</h5>
         <div class="chart-container">
           <canvas id="co2-chart-week"></canvas>
         </div>
@@ -137,17 +107,17 @@
   </div>
 
   <p class="text-muted small text-center mt-2">
-    🌍 Estimativa educacional: 1h de uso não produtivo ≈ {{ co2_factor }}g de CO₂ digital.
+    🌍 1h de uso não produtivo ≈ {{ co2_factor }}g de CO₂ digital.
   </p>
 </div>
 
-<!-- Dados seguros (JSON) -->
+<!-- Dados JSON -->
 {{ day_chart_data|json_script:"day-data" }}
 {{ series_7d|json_script:"series7d-data" }}
 {{ series_co2_day|json_script:"series-co2-day" }}
 {{ series_co2_week|json_script:"series-co2-week" }}
 
-<!-- Chart.js CDN -->
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 (function() {
@@ -158,9 +128,16 @@
     type: 'doughnut',
     data: {
       labels: ['Produtivo', 'Não Produtivo'],
-      datasets: [{ data: dayData, backgroundColor: ['#4CAF50', '#EF5350'] }]
+      datasets: [{
+        data: dayData,
+        backgroundColor: ['#4CAF50', '#EF5350']  // 🟢 verde e 🔴 vermelho
+      }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    options: { 
+      plugins: { legend: { position: 'bottom' } },
+      cutout: '70%',
+      responsive: true 
+    }
   });
 
   // === Gráfico semanal (tempo) ===
@@ -174,26 +151,40 @@
     data: {
       labels,
       datasets: [
-        { label: 'Produtivo', data: prod, backgroundColor: '#4CAF50', stack: 'stack1' },
-        { label: 'Não produtivo', data: nao, backgroundColor: '#EF5350', stack: 'stack1' }
+        { label: 'Produtivo', data: prod, backgroundColor: '#4CAF50' }, // verde
+        { label: 'Não produtivo', data: nao, backgroundColor: '#EF5350' } // vermelho
       ]
     },
-    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { x: { stacked: true }, y: { stacked: true } } }
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'top' } },
+      scales: { 
+        x: { stacked: true }, 
+        y: { stacked: true } 
+      }
+    }
   });
 
-  // === Gráfico CO₂ diário (donut) ===
+  // === Gráfico CO₂ diário ===
   const co2DayData = JSON.parse(document.getElementById('series-co2-day').textContent);
   const ctxCo2Day = document.getElementById('co2-chart-day').getContext('2d');
   new Chart(ctxCo2Day, {
     type: 'doughnut',
     data: {
       labels: ['CO₂ gerado (não produtivo)'],
-      datasets: [{ data: co2DayData, backgroundColor: ['#8BC34A'] }]
+      datasets: [{
+        data: co2DayData,
+        backgroundColor: ['#616161']  // ⚫️ cinza poluição
+      }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    options: { 
+      plugins: { legend: { position: 'bottom' } },
+      cutout: '70%',
+      responsive: true 
+    }
   });
 
-  // === Gráfico CO₂ semanal (barras) ===
+  // === Gráfico CO₂ semanal ===
   const co2WeekSeries = JSON.parse(document.getElementById('series-co2-week').textContent);
   const co2WeekLabels = co2WeekSeries.map(p => p.date.substring(8,10) + '/' + p.date.substring(5,7));
   const co2WeekValues = co2WeekSeries.map(p => p.co2);
@@ -202,10 +193,18 @@
     type: 'bar',
     data: {
       labels: co2WeekLabels,
-      datasets: [{ label: 'CO₂ gerado', data: co2WeekValues, backgroundColor: '#8BC34A' }]
+      datasets: [{
+        label: 'CO₂ gerado',
+        data: co2WeekValues,
+        backgroundColor: '#616161' // ⚫️ cinza poluição
+      }]
     },
-    options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { title: { display: true, text: 'g de CO₂' } } } }
+    options: {
+      plugins: { legend: { position: 'top' } },
+      scales: { y: { title: { display: true, text: 'g de CO₂' } } }
+    }
   });
 })();
 </script>
+
 {% endblock %}

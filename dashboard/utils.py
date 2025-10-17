@@ -70,12 +70,19 @@ def _current_streak(user, goal_minutes=DAILY_NP_GOAL_MINUTES):
         end_dt = timezone.make_aware(
             timezone.datetime.combine(d, timezone.datetime.max.time())
         )
-        _, nao, _ = _breakdown_minutes(user, start_dt, end_dt)
-        if nao <= goal_minutes:
+        prod, nao, tot = _breakdown_minutes(user, start_dt, end_dt)
+
+        # ✅ só conta se o usuário tiver registro
+        if tot == 0:
+            if i == 0:
+                continue
+            break
+        elif nao <= goal_minutes:
             streak += 1
         else:
             break
     return streak
+
 
 
 # === Função principal — usada por dashboard e IA ===

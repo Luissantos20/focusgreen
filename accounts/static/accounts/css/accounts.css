@@ -1,0 +1,101 @@
+/* ========================================
+🌿 FocusGreen Accounts Styles
+======================================== */
+
+/* === Paleta de Cores Sustentável === */
+:root {
+  --verde-escuro: #1B5E20;
+  --verde-medio: #4CAF50;
+  --verde-claro: #A5D6A7;
+  --verde-fundo: #E8F5E9;
+  --azul-suave: #C8E6E9;
+  --azul-profundo: #1565C0;
+  --cinza-texto: #37474F;
+  --branco: #FAFAFA;
+}
+
+/* === Estrutura Geral === */
+body {
+  background-color: var(--verde-fundo);
+  color: var(--cinza-texto);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* === Cartões === */
+.eco-card {
+  background-color: var(--branco);
+  border-radius: 16px;
+  border: none;
+}
+
+/* === Textos === */
+.text-eco-dark {
+  color: var(--verde-escuro);
+}
+
+.text-eco {
+  color: var(--verde-medio);
+}
+
+/* === Botões === */
+.btn-eco {
+  background-color: var(--verde-medio);
+  color: white;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-eco:hover {
+  background-color: var(--verde-escuro);
+}
+
+.btn-outline-eco {
+  color: var(--verde-medio);
+  border: 2px solid var(--verde-medio);
+  transition: 0.3s;
+}
+
+.btn-outline-eco:hover {
+  background-color: var(--verde-medio);
+  color: white;
+}
+
+.btn-outline-eco-secondary {
+  color: var(--azul-profundo);
+  border: 2px solid var(--azul-profundo);
+}
+
+.btn-outline-eco-secondary:hover {
+  background-color: var(--azul-profundo);
+  color: white;
+}
+
+/* === Inputs === */
+input[type="text"], input[type="password"], input[type="email"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--verde-claro);
+  background-color: var(--verde-fundo);
+  transition: all 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--verde-medio);
+  box-shadow: 0 0 4px rgba(76, 175, 80, 0.3);
+}
+
+/* === Alertas === */
+.alert {
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* === Responsividade === */
+@media (max-width: 576px) {
+  .eco-card {
+    padding: 1.5rem;
+  }
+}

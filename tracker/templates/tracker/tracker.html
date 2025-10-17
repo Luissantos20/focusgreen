@@ -3,114 +3,156 @@
 {% load static %}
 {% load time_format %}
 
+{% block title %}Tracker — FocusGreen{% endblock %}
+
 {% block content %}
-<div class="container py-5" style="background-color: #c8e6c9; border-radius: 12px;">
-    <h2 class="text-center mb-5 fw-bold" style="color: #1b5e20;">⏱️ Seu Tempo Digital Sustentável</h2>
+<link rel="stylesheet" href="{% static 'tracker/css/tracker.css' %}">
 
-    <!-- MENSAGENS -->
-    <div id="flash-messages" class="position-relative mb-4">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm rounded-4" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
+<div class="container py-5 tracker-container">
+  <h2 class="text-center mb-5 fw-bold text-eco-dark">⏱️ Seu Tempo Digital Sustentável</h2>
 
-    <!-- TIMER -->
-    <div class="card shadow p-4 mb-5 border-0" style="background-color: #a5d6a7; border-radius: 16px; color: #1b5e20;">
-        <h5 class="fw-bold mb-3 text-center">Timer de Foco</h5>
-
-        <div class="display-4 text-center mb-4 fw-bold" id="fg-timer-display">00:00</div>
-
-        <div class="d-flex justify-content-center flex-wrap gap-2 mb-4">
-            <button type="button" id="fg-start" class="btn text-white shadow-sm" style="background-color: #2e7d32;">Iniciar</button>
-            <button type="button" id="fg-pause" class="btn text-white shadow-sm" style="background-color: #558b2f;">Pausar</button>
-            <button type="button" id="fg-stop" class="btn text-white shadow-sm" style="background-color: #c62828;">Parar & Salvar</button>
-            <button type="button" id="fg-reset" class="btn text-white shadow-sm" style="background-color: #6d4c41;">Zerar</button>
+  <!-- MENSAGENS -->
+  <div id="flash-messages" class="position-relative mb-4">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm rounded-4" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
-        <div class="row g-3">
-            <div class="col-md-4">
-                <label class="form-label fw-semibold" style="color: #1b5e20;">Categoria</label>
-                <select id="fg-category" class="form-select rounded-3 border-success" style="background-color: #e8f5e9;">
-                    <option value="PROD">Produtivo</option>
-                    <option value="NAO_PROD">Não Produtivo</option>
-                </select>
-            </div>
-            <div class="col-md-8">
-                <label class="form-label fw-semibold" style="color: #1b5e20;">Observação (opcional)</label>
-                <input id="fg-note" type="text" class="form-control rounded-3 border-success" placeholder="Ex.: Sessão de estudo de Python" style="background-color: #e8f5e9;">
-            </div>
-        </div>
-    </div>
-
-    <!-- REGISTRO MANUAL -->
-    <div class="card shadow p-4 mb-5 border-0" style="background-color: #81c784; border-radius: 16px; color: #1b5e20;">
-        <h2 class="text-center mb-4 fw-bold">📘 Registro Manual</h2>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="id_minutes" class="form-label">Minutos</label>
-                {{ form.minutes }}
-            </div>
-
-            <div class="mb-3">
-                <label for="id_category" class="form-label">Categoria</label>
-                {{ form.category }}
-            </div>
-
-            <div class="mb-3">
-                <label for="id_note" class="form-label">Observações</label>
-                {{ form.note }}
-            </div>
-
-            <button type="submit" class="btn w-100 py-2 fw-semibold shadow-sm text-white" style="background-color: #2e7d32;">Registrar Tempo</button>
-        </form>
-    </div>
-
-    <!-- HISTÓRICO -->
-    <h2 class="text-center mb-4 fw-bold" style="color: #1b5e20;">📋 Registros Recentes</h2>
-
-    {% if entries %}
-        <div class="table-responsive">
-            <table class="table table-bordered align-middle shadow-sm" style="border-radius: 12px; overflow: hidden; background-color: #a5d6a7;">
-                <thead style="background-color: #66bb6a; color: white;">
-                    <tr>
-                        <th>Data</th>
-                        <th>Minutos</th>
-                        <th>Categoria</th>
-                        <th>Observações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for entry in entries %}
-                        <tr style="color: #1b5e20;">
-                            <td>{{ entry.started_at|localtime|date:"d/m/Y H:i" }}</td>
-                            <td>{{ entry.minutes|format_minutes }}</td>
-                            <td>
-                                {% if entry.category == "PROD" %}
-                                    <span class="badge" style="background-color: #2e7d32;">Produtivo</span>
-                                {% else %}
-                                    <span class="badge" style="background-color: #c62828;">Não Produtivo</span>
-                                {% endif %}
-                            </td>
-                            <td>{{ entry.note|default:"—" }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% else %}
-        <p class="text-center" style="color: #1b5e20;">Nenhum registro ainda. 🌿 Comece seu primeiro tempo sustentável!</p>
+      {% endfor %}
     {% endif %}
+  </div>
+
+  <!-- TIMER -->
+  <div class="card tracker-card p-4 mb-5">
+    <h5 class="fw-bold mb-3 text-center">Timer de Foco</h5>
+    <div class="display-4 text-center mb-4 fw-bold" id="fg-timer-display">00:00</div>
+
+    <div class="d-flex justify-content-center flex-wrap gap-2 mb-4">
+      <button type="button" id="fg-start" class="btn btn-eco">Iniciar</button>
+      <button type="button" id="fg-pause" class="btn btn-outline-eco">Pausar</button>
+      <button type="button" id="fg-stop" class="btn btn-danger">Parar & Salvar</button>
+      <button type="button" id="fg-reset" class="btn btn-secondary">Zerar</button>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label fw-semibold text-eco-dark">Categoria</label>
+        <select id="fg-category" class="form-select rounded-3 border-success bg-light-eco">
+          <option value="PROD">Produtivo</option>
+          <option value="NAO_PROD">Não Produtivo</option>
+        </select>
+      </div>
+      <div class="col-md-8">
+        <label class="form-label fw-semibold text-eco-dark">Observação (opcional)</label>
+        <input id="fg-note" type="text" class="form-control rounded-3 border-success bg-light-eco"
+               placeholder="Ex.: Sessão de estudo de Python">
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTRO MANUAL -->
+  <div class="card tracker-card p-4 mb-5">
+    <h2 class="text-center mb-4 fw-bold">📘 Registro Manual</h2>
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="id_hours" class="form-label">Horas</label>
+          {{ form.hours }}
+        </div>
+        <div class="col-md-6">
+          <label for="id_minutes" class="form-label">Minutos</label>
+          {{ form.minutes }}
+        </div>
+      </div>
+
+      <div class="mb-3 mt-3">
+        <label for="id_category" class="form-label">Categoria</label>
+        {{ form.category }}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_note" class="form-label">Observações</label>
+        {{ form.note }}
+      </div>
+
+      <button type="submit" class="btn btn-eco w-100 py-2 fw-semibold shadow-sm">
+        Registrar Tempo
+      </button>
+    </form>
+  </div>
+
+  <!-- HISTÓRICO -->
+  <h2 class="text-center mb-4 fw-bold text-eco-dark">📋 Registros Recentes</h2>
+
+  {% if entries %}
+    <div class="table-responsive">
+      <table class="table table-hover align-middle shadow-sm tracker-table">
+        <thead class="text-white text-center">
+          <tr>
+            <th>Data</th>
+            <th>Minutos</th>
+            <th>Categoria</th>
+            <th>Observações</th>
+          </tr>
+        </thead>
+        <tbody id="fg-history-body">
+          {% for entry in entries %}
+            <tr class="{% if forloop.counter > 5 %}extra-row d-none{% endif %}">
+              <td>{{ entry.started_at|localtime|date:"d/m/Y H:i" }}</td>
+              <td>{{ entry.minutes|format_minutes }}</td>
+              <td>
+                {% if entry.category == "PROD" %}
+                  <span class="badge bg-success">Produtivo</span>
+                {% else %}
+                  <span class="badge bg-danger">Não Produtivo</span>
+                {% endif %}
+              </td>
+              <td>{{ entry.note|default:"—" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if entries|length > 5 %}
+      <div class="text-center mt-3">
+        <button id="toggle-history-btn" class="btn btn-outline-eco px-4">
+          Ver mais registros
+        </button>
+      </div>
+    {% endif %}
+  {% else %}
+    <p class="text-center text-eco-dark">
+      Nenhum registro ainda. 🌿 Comece seu primeiro tempo sustentável!
+    </p>
+  {% endif %}
 </div>
 
 <!-- SCRIPTS -->
 <script>
   window.FG_ADD_ENTRY_URL = "{% url 'add_entry' %}";
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const toggleBtn = document.getElementById("toggle-history-btn");
+    const extraRows = document.querySelectorAll(".extra-row");
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", () => {
+        const isHidden = extraRows[0].classList.contains("d-none");
+        extraRows.forEach(row => {
+          row.classList.toggle("d-none");
+          row.classList.toggle("fade-row");
+        });
+        toggleBtn.textContent = isHidden
+          ? "Ver menos registros"
+          : "Ver mais registros";
+      });
+    }
+  });
 </script>
-<script src="{% static 'tracker/timer.js' %}"></script>
+
+<script src="{% static 'tracker/js/timer.js' %}"></script>
 {% endblock %}

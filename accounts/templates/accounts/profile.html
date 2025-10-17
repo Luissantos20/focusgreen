@@ -1,19 +1,24 @@
-<!-- templates/accounts/profile.html -->
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <div class="card p-4 text-center">
-      <h2 class="text-success mb-3">🌱 Minha Conta</h2>
-      <p class="lead">Bem-vindo, <strong>{{ user.username }}</strong>!</p>
+<link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}">
 
-      <div class="d-grid gap-2 mt-4">
-        <a href="{% url 'dashboard' %}" class="btn btn-outline-success">Ver meu Dashboard</a>
-        <a href="{% url 'tracker' %}" class="btn btn-outline-secondary">Registrar Tempo</a>
-        <form action="{% url 'logout' %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-outline-danger mt-2">Sair</button>
-        </form>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card eco-card p-4 text-center shadow-lg border-0 rounded-4">
+        <h2 class="text-eco-dark mb-3 fw-bold">🌎 Minha Conta</h2>
+        <p class="lead text-muted">Bem-vindo, <strong>{{ user.username }}</strong>!</p>
+
+        <div class="d-grid gap-2 mt-4">
+          <a href="{% url 'dashboard' %}" class="btn btn-outline-eco fw-semibold">Ver meu Dashboard</a>
+          <a href="{% url 'tracker' %}" class="btn btn-outline-eco-secondary fw-semibold">Registrar Tempo</a>
+
+          <form action="{% url 'logout' %}" method="post" class="mt-2">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger rounded-pill fw-semibold">Sair</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>

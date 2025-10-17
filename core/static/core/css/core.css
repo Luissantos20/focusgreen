@@ -1,0 +1,103 @@
+/* ======================================
+🌿 FocusGreen - Estilos principais (Core)
+====================================== */
+
+/* === Paleta ecológica === */
+:root {
+  --verde-escuro: #1B5E20;
+  --verde-medio: #4CAF50;
+  --verde-claro: #A5D6A7;
+  --verde-fundo: #E8F5E9;
+  --azul-suave: #C8E6E9;
+  --azul-profundo: #1565C0;
+  --cinza-texto: #37474F;
+  --branco: #FAFAFA;
+}
+
+/* === Navbar === */
+.eco-navbar {
+  background: linear-gradient(90deg, #a8e6a3, #81c784);
+}
+
+.nav-link-eco {
+  color: var(--verde-escuro) !important;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-link-eco:hover {
+  color: var(--azul-profundo) !important;
+}
+
+/* Avatar */
+.eco-avatar {
+  width: 35px;
+  height: 35px;
+  background-color: var(--verde-medio);
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === Hero Section === */
+.hero-section {
+  background: linear-gradient(135deg, #a8e6a3, #dff7d5);
+}
+
+.hero-img {
+  max-width: 90%;
+}
+
+/* === Features Section === */
+.features-section {
+  background-color: #f5f9f2;
+}
+
+.feature-img {
+  max-width: 90%;
+}
+
+/* === ODS Section === */
+.ods-section {
+  background: linear-gradient(135deg, #e8f5e9, #f5f9f2);
+}
+
+/* === CTA Section === */
+.cta-section {
+  background-color: #2e7d32;
+  color: #fff;
+}
+
+.cta-section .btn {
+  border-radius: 30px;
+}
+
+/* === Botões === */
+.btn-eco {
+  background-color: var(--verde-medio);
+  color: white;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-eco:hover {
+  background-color: var(--verde-escuro);
+}
+
+/* === Textos === */
+.text-eco-dark {
+  color: var(--verde-escuro);
+}
+
+/* === Responsividade === */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 1.8rem;
+  }
+  .cta-section h2 {
+    font-size: 1.5rem;
+  }
+}

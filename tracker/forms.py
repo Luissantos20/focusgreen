@@ -1,12 +1,20 @@
 from django import forms
 from .models import ScreenTimeEntry
 
-# Transforma o que o usuário digita em dados validados e prontos pra salvar no modelo,
-# e também gera automaticamente o HTML do formulário.
 class ScreenTimeEntryForm(forms.ModelForm):
+    hours = forms.IntegerField(
+        required=False,
+        min_value=0,
+        label="Horas",
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Horas'
+        })
+    )
+
     class Meta:
         model = ScreenTimeEntry
-        fields = ['minutes', 'category', 'note']
+        fields = ['hours', 'minutes', 'category', 'note']
         widgets = {
             'minutes': forms.NumberInput(attrs={
                 'class': 'form-control',
@@ -21,3 +29,10 @@ class ScreenTimeEntryForm(forms.ModelForm):
                 'placeholder': 'Observações (opcional)'
             }),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        hours = cleaned_data.get('hours') or 0
+        minutes = cleaned_data.get('minutes') or 0
+        cleaned_data['minutes'] = (hours * 60) + minutes
+        return cleaned_data

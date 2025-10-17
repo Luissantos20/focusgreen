@@ -1,0 +1,65 @@
+/* ===================================================
+🌿 FocusGreen Dashboard Styles
+=================================================== */
+:root {
+  --verde-escuro: #1b5e20;
+  --verde-medio: #4caf50;
+  --verde-claro: #a5d6a7;
+  --verde-fundo: #e8f5e9;
+  --cinza-pol: #616161;
+  --cinza-texto: #37474f;
+  --azul-suave: #1565c0;
+}
+
+/* === Cards Sustentáveis === */
+.eco-card {
+  background: #fff;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+}
+
+.eco-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* === Destaque dinâmico === */
+.eco-card-highlight {
+  background: linear-gradient(135deg, #a5d6a7, #c8e6c9);
+  animation: glowGreen 2s infinite alternate;
+}
+
+@keyframes glowGreen {
+  from {
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+  }
+  to {
+    box-shadow: 0 0 18px rgba(76, 175, 80, 0.6);
+  }
+}
+
+/* === Tipografia === */
+.text-eco-dark {
+  color: var(--verde-escuro);
+}
+
+/* === Gráficos === */
+.chart-container {
+  height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-donut {
+  max-width: 85%;
+  height: auto;
+}
+
+/* === Responsividade === */
+@media (max-width: 768px) {
+  .eco-card { padding: 1.2rem; }
+  h5 { font-size: 1rem; }
+}

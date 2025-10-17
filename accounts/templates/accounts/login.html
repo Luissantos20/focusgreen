@@ -1,9 +1,43 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h2>Entrar</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }} 
-    <button type="submit">Entrar</button>
-</form>
+<link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}">
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card eco-card shadow-lg p-4 border-0 rounded-4">
+        <h2 class="text-center text-eco-dark mb-4 fw-bold">🌱 Entrar</h2>
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} rounded-3 py-2">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+
+        {% if form.errors %}
+          <div class="alert alert-danger rounded-3 py-2">Usuário ou senha incorretos. Tente novamente.</div>
+        {% endif %}
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label fw-semibold">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+                <div class="text-danger small">{{ field.errors|striptags }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-eco w-100 rounded-pill fw-semibold">Entrar</button>
+        </form>
+
+        <p class="text-center mt-4 mb-0">Não tem conta?
+          <a href="{% url 'register' %}" class="text-eco fw-semibold">Cadastre-se</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

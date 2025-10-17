@@ -2,132 +2,44 @@
 {% load static %}
 {% block content %}
 
-<style>
-  body {
-    background: linear-gradient(180deg, #aaefa6 0%, #aaefa6 100%);
-    font-family: 'Poppins', sans-serif;
-  }
+<link rel="stylesheet" href="{% static 'assistant/css/assistant.css' %}">
 
-  .assistant-header {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  .assistant-header h2 {
-    font-weight: 700;
-    color: #2E7D32;
-  }
-
-  .assistant-header p {
-    color: #558B2F;
-  }
-
-  .card-assistant {
-    background: #ffffff;
-    border-radius: 20px;
-    padding: 2rem;
-    max-width: 720px;
-    margin: 0 auto;
-    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .card-assistant:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(46, 125, 50, 0.2);
-  }
-
-  .btn-green {
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 50px;
-    color: white;
-    font-weight: 600;
-    padding: 0.8rem 2rem;
-    transition: all 0.3s ease;
-  }
-
-  .btn-green:hover {
-    background-color: #388E3C;
-    transform: scale(1.03);
-  }
-
-  .insight-box {
-    background: #E8F5E9;
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-    text-align: left;
-    animation: fadeIn 1s ease-in-out;
-  }
-
-  .insight-box h5 {
-    color: #2E7D32;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-
-  .insight-box p {
-    color: #1B5E20;
-    font-size: 1.05rem;
-  }
-
-  .footer-note {
-    text-align: center;
-    color: #9E9E9E;
-    margin-top: 3rem;
-    font-size: 0.9rem;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Spinner de carregamento */
-  .loader {
-    display: none;
-    border: 4px solid #C8E6C9;
-    border-top: 4px solid #4CAF50;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin: 20px auto;
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-</style>
-
-<div class="container py-5">
-  <div class="assistant-header">
-    <h2>🧠 Assistente FocusGreen</h2>
-    <p>Insights personalizados para o seu equilíbrio digital e ambiental</p>
-  </div>
-
-  <div class="card-assistant text-center">
-    <form method="post" id="ai-form">
-      {% csrf_token %}
-      <button type="submit" class="btn-green" id="generate-btn">
-        🌿 Gerar Insight
-      </button>
-    </form>
-
-    <div class="loader" id="loading-spinner"></div>
-
-    {% if ai_response %}
-    <div class="insight-box mt-4">
-      <h5>✨ Insight do Dia</h5>
-      <p>{{ ai_response }}</p>
+<div class="assistant-bg">
+  <div class="container py-5">
+    <div class="assistant-header text-center mb-5">
+      <img src="{% static 'assistant/img/robo_assistente.png' %}" 
+           alt="Assistente FocusGreen" 
+           class="assistant-bot mb-3">
+      <h2>🧠 Assistente FocusGreen</h2>
+      <p>Seu guia inteligente para um tempo digital mais equilibrado 🌎</p>
     </div>
-    {% endif %}
-  </div>
 
-  <div class="footer-note">
-    🌍 FocusGreen — Promovendo um tempo digital mais sustentável.
+    <div class="card-assistant text-center">
+      <form method="post" id="ai-form">
+        {% csrf_token %}
+        <button type="submit" class="btn-green" id="generate-btn">
+          🌿 Gerar Insight
+        </button>
+      </form>
+
+      <div class="loader" id="loading-spinner"></div>
+
+      <!-- Área dinâmica do insight -->
+      <div id="insight-container" class="insight-box mt-4" style="display: none;">
+        <h5>✨ Insight do Dia</h5>
+        <p id="typed-insight"></p>
+      </div>
+
+      {% if ai_response %}
+        <script>
+          window.generatedInsight = `{{ ai_response|escapejs }}`;
+        </script>
+      {% endif %}
+    </div>
+
+    <div class="footer-note">
+      🌱 Pequenas ações digitais, grandes impactos sustentáveis.
+    </div>
   </div>
 </div>
 
@@ -135,11 +47,31 @@
   const form = document.getElementById('ai-form');
   const spinner = document.getElementById('loading-spinner');
   const button = document.getElementById('generate-btn');
+  const insightBox = document.getElementById('insight-container');
+  const insightText = document.getElementById('typed-insight');
 
   form.addEventListener('submit', () => {
     spinner.style.display = 'block';
     button.disabled = true;
     button.innerText = 'Gerando insight... 🌱';
+  });
+
+  // efeito de digitação
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.generatedInsight) {
+      spinner.style.display = 'none';
+      insightBox.style.display = 'block';
+      const text = window.generatedInsight;
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          insightText.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, 25);
+        }
+      }
+      setTimeout(type, 400);
+    }
   });
 </script>
 

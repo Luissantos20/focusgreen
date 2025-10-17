@@ -9,27 +9,24 @@ let running = false;
 // ------------------------------------------------------
 // Utilidades
 // ------------------------------------------------------
-function byId(id) { return document.getElementById(id); }
+function byId(id) {
+    return document.getElementById(id);
+}
 
 // ------------------------------------------------------
-// Formata o tempo em HH:MM:SS (bonito acima de 60min)
+// Formata o tempo em HH:MM:SS (exibe horas se > 60min)
 // ------------------------------------------------------
 function formatTime(totalSeconds) {
     const h = Math.floor(totalSeconds / 3600);
     const m = Math.floor((totalSeconds % 3600) / 60);
     const s = totalSeconds % 60;
-
-    if (h > 0) {
-        // Exibe horas também se passar de 60 minutos
-        return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    } else {
-        // Caso normal (< 1h)
-        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    }
+    return h > 0
+        ? `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+        : `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
 // ------------------------------------------------------
-// Formata minutos em string humana (para histórico AJAX)
+// Formata minutos para string legível (para histórico)
 // ------------------------------------------------------
 function formatMinutes(mins) {
     if (mins < 60) return `${mins} min`;
@@ -42,7 +39,7 @@ function formatMinutes(mins) {
 // Atualiza display do timer
 // ------------------------------------------------------
 function updateDisplay() {
-    const el = byId('fg-timer-display');
+    const el = byId("fg-timer-display");
     if (el) el.textContent = formatTime(seconds);
 }
 
@@ -50,8 +47,8 @@ function updateDisplay() {
 // Coleta o CSRF Token (requerido pelo Django)
 // ------------------------------------------------------
 function getCSRFToken() {
-    const name = 'csrftoken=';
-    const cookies = document.cookie.split(';');
+    const name = "csrftoken=";
+    const cookies = document.cookie.split(";");
     for (let c of cookies) {
         c = c.trim();
         if (c.startsWith(name)) return c.substring(name.length);
@@ -65,11 +62,15 @@ function getCSRFToken() {
 function startTimer() {
     if (running) return;
     running = true;
+
+    const display = byId("fg-timer-display");
+    display.classList.add("active-timer");
+
     timerInterval = setInterval(() => {
         seconds++;
         updateDisplay();
 
-        // Limite opcional (10h)
+        // Segurança: pausa automática após 10h
         if (seconds >= 36000) {
             pauseTimer();
             showFlashMessage("info", "⏸️ Timer pausado automaticamente após 10 horas.");
@@ -80,6 +81,9 @@ function startTimer() {
 function pauseTimer() {
     running = false;
     clearInterval(timerInterval);
+
+    const display = byId("fg-timer-display");
+    display.classList.remove("active-timer");
 }
 
 function resetTimer() {
@@ -89,11 +93,12 @@ function resetTimer() {
 }
 
 // ------------------------------------------------------
-// Mostra alertas visuais Bootstrap
+// Mostra alertas visuais (Bootstrap)
 // ------------------------------------------------------
 function showFlashMessage(type, text) {
     const container = byId("flash-messages");
     if (!container) return;
+
     const alertDiv = document.createElement("div");
     alertDiv.className = `alert alert-${type} alert-dismissible fade show shadow-sm`;
     alertDiv.setAttribute("role", "alert");
@@ -101,6 +106,7 @@ function showFlashMessage(type, text) {
         ${text}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     `;
+
     container.appendChild(alertDiv);
 
     // Remove automaticamente após 5 segundos
@@ -117,22 +123,23 @@ function showFlashMessage(type, text) {
 async function stopAndSave() {
     pauseTimer();
     const minutes = Math.floor(seconds / 60);
+
     if (minutes <= 0) {
-        showFlashMessage("warning", "Registre ao menos 1 minuto antes de salvar.");
+        showFlashMessage("warning", "⏱️ Registre ao menos 1 minuto antes de salvar.");
         return;
     }
 
-    const category = byId('fg-category').value;
-    const note = byId('fg-note').value;
+    const category = byId("fg-category").value;
+    const note = byId("fg-note").value;
 
     try {
         const resp = await fetch(window.FG_ADD_ENTRY_URL, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCSRFToken(),
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCSRFToken(),
             },
-            body: JSON.stringify({ minutes, category, note })
+            body: JSON.stringify({ minutes, category, note }),
         });
 
         const data = await resp.json();
@@ -145,26 +152,23 @@ async function stopAndSave() {
         // ✅ Mostra mensagem de sucesso
         showFlashMessage("success", data.message || "Tempo adicionado com sucesso! 🌿");
 
-        // ------------------------------------------------------
-        // Atualiza o histórico dinamicamente com tempo formatado
-        // ------------------------------------------------------
-        const tbody = byId('fg-history-body');
+        // Atualiza histórico dinâmico
+        const tbody = byId("fg-history-body");
         if (tbody) {
-            const tr = document.createElement('tr');
+            const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${data.entry.started_at}</td>
                 <td>${formatMinutes(data.entry.minutes)}</td>
                 <td>${
-                    data.entry.category === 'Produtivo'
+                    data.entry.category === "Produtivo"
                         ? '<span class="badge bg-success">Produtivo</span>'
                         : '<span class="badge bg-danger">Não Produtivo</span>'
                 }</td>
-                <td>${data.entry.note || '—'}</td>`;
+                <td>${data.entry.note || "—"}</td>`;
             tbody.prepend(tr);
         }
 
         resetTimer();
-
     } catch (err) {
         showFlashMessage("danger", "Erro: " + err.message);
     }
@@ -173,10 +177,11 @@ async function stopAndSave() {
 // ------------------------------------------------------
 // Inicialização
 // ------------------------------------------------------
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     updateDisplay();
-    byId('fg-start').addEventListener('click', startTimer);
-    byId('fg-pause').addEventListener('click', pauseTimer);
-    byId('fg-stop').addEventListener('click', stopAndSave);
-    byId('fg-reset').addEventListener('click', resetTimer);
+
+    byId("fg-start").addEventListener("click", startTimer);
+    byId("fg-pause").addEventListener("click", pauseTimer);
+    byId("fg-stop").addEventListener("click", stopAndSave);
+    byId("fg-reset").addEventListener("click", resetTimer);
 });

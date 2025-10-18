@@ -13,6 +13,7 @@
         <div class="d-grid gap-2 mt-4">
           <a href="{% url 'dashboard' %}" class="btn btn-outline-eco fw-semibold">Ver meu Dashboard</a>
           <a href="{% url 'tracker' %}" class="btn btn-outline-eco-secondary fw-semibold">Registrar Tempo</a>
+          <a href="{% url 'assistant_index' %}" class="btn btn-outline-eco-primary fw-semibold">Receber Insight do Dia</a>
 
           <form action="{% url 'logout' %}" method="post" class="mt-2">
             {% csrf_token %}

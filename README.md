@@ -1,48 +1,93 @@
-# 🌿 FocusGreen — Tempo Digital Sustentável
+# 🌿 FocusGreen | Tempo Digital Sustentável
+
 
 ![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
 ![Django](https://img.shields.io/badge/Django-5.2.7-green.svg)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-purple.svg)
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow.svg)
+![Status](https://img.shields.io/badge/status-MVP%20Final-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)
 
 ---
 
 ## 💡 Sobre o Projeto
 
-O **FocusGreen** é uma aplicação web criada para incentivar o **uso consciente e sustentável da tecnologia**, mostrando que cuidar do **tempo de tela** também é cuidar da **mente e do meio ambiente**.
+O **FocusGreen** é uma plataforma web que promove o **uso consciente e sustentável da tecnologia**, ajudando pessoas a compreender e equilibrar seu **tempo digital** de forma saudável e responsável.
 
-A plataforma ajuda o usuário a **monitorar e reduzir o tempo de uso não produtivo**, substituindo parte desse tempo por **conteúdos rápidos e enriquecedores**, promovendo equilíbrio digital e responsabilidade ecológica.
+A aplicação permite **monitorar o tempo produtivo e não produtivo**, gerar **relatórios diários e semanais**, e receber **insights personalizados de um agente de IA**.  
+Esse agente analisa seus hábitos digitais e transforma dados em **conselhos práticos e inspiradores**, mostrando o **impacto ambiental do tempo de tela** e incentivando **um estilo de vida digital mais equilibrado e sustentável**.
+
+> 🌱 “Usar a tecnologia de forma consciente é plantar sustentabilidade no tempo digital.”
+
 
 ---
 
-## 🎯 Objetivos do Projeto
+## 🎯 Objetivos
 
-- Promover **saúde mental** e foco por meio do uso equilibrado da tecnologia.  
-- Diminuir o **impacto ambiental** causado pelo uso excessivo de dispositivos e dados digitais.  
-- Educar sobre **consumo digital sustentável** e **bem-estar digital**.  
-- Criar um ambiente simples, bonito e funcional para o usuário interagir com o tema.
+- Promover **saúde mental** e **equilíbrio digital**.  
+- Reduzir o **uso improdutivo** de telas.  
+- Conscientizar sobre o **impacto ambiental e mental** do uso digital.  
+- Educar sobre **sustentabilidade e foco** no mundo tecnológico.  
 
 ---
 
 ## 🌍 Conexão com os ODS (ONU)
 
-| ODS | Nome | Relação com o Projeto |
+| **ODS** | **Nome** | **Relação com o Projeto** |
 |-----|------|------------------------|
-| **ODS 3** | Saúde e Bem-Estar | Incentiva equilíbrio mental e emocional através da redução do tempo de tela. |
-| **ODS 12** | Consumo e Produção Responsáveis | Ensina consumo digital responsável e sustentável. |
-| **ODS 13** | Ação Contra a Mudança Global do Clima | Reduz emissões de CO₂ ligadas ao uso excessivo de energia e dados. |
+| **ODS 3** | Saúde e Bem-Estar | Incentiva equilíbrio mental e autocontrole digital. |
+| **ODS 12** | Consumo e Produção Responsáveis | Ensina consumo digital sustentável. |
+| **ODS 13** | Ação Contra a Mudança Global do Clima | Relaciona tempo de tela à economia de energia e CO₂. |
 
 ---
 
-## 🧩 Tecnologias Utilizadas
+## 🖼️ Demonstração reduzida do MVP
 
-- **Python 3.12+**
-- **Django 5.2.7**
-- **Bootstrap 5.3**
-- **HTML5 / CSS3**
-- **Git e GitHub**
-- *(Em breve: integração com APIs e agentes de IA)*
+### 🏠 Homepage
+![Homepage](static/img/homepage.png)
+
+### ⏱️ Tracker de Tempo
+![Tracker](static/img/tracker.png)
+
+### 📊 Dashboard
+![Dashboard](static/img/dashboard.png)
+
+### 🤖 Assistente de IA
+![Assistente](static/img/assistant.png)
+![Insight](static/img/insight.png)
+
+---
+
+## 🧩 Estrutura do Projeto
+
+A estrutura segue o padrão **MVT (Model–View–Template)** do Django, com apps independentes e bem definidos:
+
+```bash
+focusgreen/
+├── focusgreen/        # Configurações principais do projeto
+├── core/              # Páginas institucionais - homepage, ODS, conceito
+├── accounts/          # Autenticação, registro e perfil do usuário
+├── tracker/           # Registro de tempo produtivo e não produtivo
+├── dashboard/         # Visualizações e métricas - gráficos e CO₂
+├── assistant/         # Chat com IA - análise do tempo de tela e dicas de foco e sustentabilidade
+├── templates/         # Templates base compartilhados
+├── static/            # favicon
+└── manage.py
+```
+
+---
+## 🧩 Tecnologias Utilizadas
+O **FocusGreen** combina tecnologias modernas para unir **produtividade**, **IA** e **sustentabilidade digital** em uma experiência fluida e educativa:
+
+- **Python 3.12+** — Linguagem principal da aplicação  
+- **Django 5.2.7** — Framework backend para estrutura e gerenciamento de dados  
+- **Bootstrap 5.3** — Estilização responsiva e interface intuitiva  
+- **HTML5 / CSS3 / JavaScript (ES6+)** — Estrutura, estilo e interatividade do frontend  
+- **Chart.js** — Visualização dinâmica dos relatórios e gráficos de desempenho  
+- **OpenAI API** — Integração com modelo de linguagem para o agente inteligente  
+- **Endpoints personalizados** — Comunicação entre o backend Django e o agente de IA, permitindo análise dos dados e geração de respostas contextuais  
+- **Git e GitHub** — Controle de versão e hospedagem do código
+
+> 💡 *A combinação entre dados, IA e sustentabilidade cria uma experiência digital mais consciente e transformadora.*
 
 ---
 
@@ -69,6 +114,12 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+### 4️⃣ Execute as migrações:
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
 ### 5️⃣ Execute o servidor:
 ```bash
 python manage.py runserver
@@ -79,60 +130,66 @@ Acesse o projeto em:
 
 ---
 
-## 🚧 Status Atual do Projeto
+## 🚧 Status do Projeto
 
-🟢 **Em desenvolvimento** — versão inicial criada com Django e Bootstrap.  
-Atualmente o projeto possui:
+🟢 **MVP em desenvolvimento ativo** — versão funcional construída com **Django**, **Bootstrap** e **integração com IA**.  
+Nesta fase, o projeto já possui base sólida e recursos principais implementados.
 
-- Estrutura base do Django configurada  
-- App principal `core` criado  
-- Arquivo `.gitignore` configurado corretamente  
-- Ambiente virtual isolado (`venv`)  
-- Versionamento completo com Git e GitHub  
+### 🔹 Versão Atual (MVP)
+- Estrutura completa em **Django**  
+- Sistema de **rastreamento de tempo diário e semanal**  
+- **Integração com a API da OpenAI**, criando um agente inteligente que gera insights personalizados  
+- **Visualização de dados** com **Chart.js**  
+- Organização modular por apps e pastas *static* independentes  
+- Versionamento contínuo com **Git e GitHub**
 
 ---
 
-## 🛠️ Funcionalidades — Planejadas e Implementadas
+## 🛠️ Funcionalidades — Implementadas e Planejadas
 
-| Status | Funcionalidade |
-|---------|----------------|
-| ✅ | Estrutura inicial com Django e app principal |
-| 🧩 | Homepage institucional com Bootstrap e informações sobre o tema |
-| ⏳ | Sistema de login e registro de usuários |
-| ⏳ | Painel com monitoramento de tempo de tela e estatísticas |
-| ⏳ | Recompensas e mensagens motivacionais |
-| ⏳ | Integração com IA para sugestões de pausas e conteúdo produtivo |
-| ⏳ | Modo sustentável (redução de brilho, tema escuro e dicas ecológicas) |
+| Status | Funcionalidade | Descrição |
+|---------|----------------|-----------|
+| ✅ | Estrutura base (Django + apps modulares) | Configuração do projeto e ambiente virtual isolado |
+| ✅ | Sistema de monitoramento de tempo | Histórico,registro e categorização de tempo produtivo e não produtivo |
+| ✅ | Relatórios diários e semanais | Visualização gráfica do tempo digital e emissões de CO₂ |
+| ✅ | Integração com IA (OpenAI API) | Agente que gera insights personalizados com base nos hábitos do usuário |
+| ✅ | Interface responsiva | Layout otimizado com Bootstrap e design sustentável |
+| 🔜 | Análise mensal e anual | Expansão dos relatórios para períodos maiores e comparativos |
+| 🔜 | Edição de meta diária | Usuário poderá ajustar sua meta de tempo não produtivo |
+| 🔜 | Alteração de senha pelo perfil | Funcionalidade direta de redefinição segura de senha |
+| 🔜 | Histórico de insights da IA | Registro das recomendações e mensagens geradas pelo agente |
+| 🔜 | Sistema de recompensas (Streak) | Pontuação e badges por dias consecutivos de uso consciente |
 
 ---
 
 ## 🔮 Próximos Passos
 
-- [ ] Criar o template base (`base.html`) e a homepage  
-- [ ] Adicionar componentes interativos com Bootstrap  
-- [ ] Criar app de controle de tempo digital  
-- [ ] Integrar com APIs de IA e análise de hábitos  
-- [ ] Gerar relatórios de bem-estar e impacto ambiental  
-- [ ] Fazer deploy em servidor online (Render, Vercel ou Railway)
+- [ ] Adicionar **análises mensais e anuais** no painel de relatórios  
+- [ ] Permitir **alteração de senha e meta diária** diretamente no perfil do usuário  
+- [ ] Implementar **histórico dos insights** gerados pela IA  
+- [ ] Criar **sistema de recompensas (dias de streak e conquistas)**  
+- [ ] Aprimorar **dashboard visual** com novos componentes e métricas  
+- [ ] Realizar **deploy em servidor online** (Render, Railway ou Vercel)
 
 ---
 
 ## 🧠 Autor
 
 **👨‍💻 Luis Filipe Santos**  
-Desenvolvedor Python em formação | Entusiasta de IA   
+Desenvolvedor Python em formação | Entusiasta em IA e sustentabilidade digital  
 
-📫 Contato: [seu_email@exemplo.com](mailto:seu_email@exemplo.com)  
-🔗 [LinkedIn](https://www.linkedin.com) *(adicione o seu link aqui)*  
+📫 Contato: [luissilvassantos@gmail.com](mailto:luissilvassantos@gmail.com)  
+🔗 [LinkedIn](https://www.linkedin.com/in/luis-filipe-santos-955458293/)
 
 ---
 
 ## 🪴 Licença
 
-Este projeto está sob a licença **MIT** — você pode utilizá-lo livremente para fins educacionais e de desenvolvimento, com os devidos créditos.  
+Este projeto está sob a licença **MIT** — você pode utilizá-lo livremente para fins educacionais e de desenvolvimento, desde que mantenha os devidos créditos.  
 
 ---
 
-
-
 > “Usar a tecnologia de forma consciente é plantar sustentabilidade no tempo digital.” 🌍
+
+
+

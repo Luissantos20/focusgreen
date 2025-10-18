@@ -137,8 +137,14 @@ USE_TZ = True
 # 🖼️ Arquivos estáticos
 # ==============================================
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# 🌿 Adicione esta parte:
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # sua pasta global de assets
+]
+
 
 # ==============================================
 # 🔑 Campo padrão de ID

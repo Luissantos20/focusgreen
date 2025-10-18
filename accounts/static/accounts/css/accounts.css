@@ -7,7 +7,7 @@
   --verde-escuro: #1B5E20;
   --verde-medio: #4CAF50;
   --verde-claro: #A5D6A7;
-  --verde-fundo: #E8F5E9;
+  --verde-fundo: #b8f0bc;
   --azul-suave: #C8E6E9;
   --azul-profundo: #1565C0;
   --cinza-texto: #37474F;
@@ -67,6 +67,17 @@ body {
 
 .btn-outline-eco-secondary:hover {
   background-color: var(--azul-profundo);
+  color: white;
+}
+
+.btn-outline-eco-primary {
+  color: var(--verde-escuro);
+  border: 2px solid var(--verde-escuro);
+  transition: 0.3s;
+}
+
+.btn-outline-eco-primary:hover {
+  background-color: var(--verde-escuro);
   color: white;
 }
 

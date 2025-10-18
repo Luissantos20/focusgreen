@@ -72,7 +72,7 @@ def _current_streak(user, goal_minutes=DAILY_NP_GOAL_MINUTES):
         )
         prod, nao, tot = _breakdown_minutes(user, start_dt, end_dt)
 
-        # ✅ só conta se o usuário tiver registro
+        # só conta se o usuário tiver registro
         if tot == 0:
             if i == 0:
                 continue

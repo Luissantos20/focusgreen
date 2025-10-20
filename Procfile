@@ -1,0 +1,1 @@
+web: gunicorn focusgreen.wsgi:application --preload

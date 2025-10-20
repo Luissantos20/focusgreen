@@ -29,7 +29,7 @@ def build_ai_prompt(user):
     - CO₂ digital semanal estimado: {data['weekly']['co2']} g
 
     🔸 O que você deve gerar:
-    Crie um insight educativo, com até 5 frases, contendo:
+    Crie um insight educativo, com até 4 frases curtas, contendo:
     1. Um resumo do desempenho **do dia e da semana**, com comparações simples ("melhor que ontem", "um pouco acima da média", etc.).
     2. Uma **dica prática e personalizada** para melhorar o equilíbrio digital (ex: pausas conscientes, blocos de foco, reduzir apps não produtivos).
     3. Uma **curiosidade ecológica realista** que traduza o CO₂ emitido pelo tempo não produtivo em algo tangível, como:

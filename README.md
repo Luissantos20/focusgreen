@@ -130,6 +130,47 @@ Acesse o projeto em:
 
 ---
 
+---
+
+## 🌐 Acesse o Projeto Online
+
+O **FocusGreen** está hospedado gratuitamente na plataforma **Render** 🌱  
+
+🔗 **Acesse aqui:** [https://focusgreen.onrender.com](https://focusgreen.onrender.com)
+
+> ⚠️ **Aviso importante:**  
+> Como o projeto está hospedado no **plano gratuito do Render**, o servidor entra em **hibernação automática** após um período de inatividade.  
+> 
+> Isso significa que:
+> - Ao acessar o site pela primeira vez após um tempo parado, ele pode **demorar de 30 segundos a 1 minuto** para carregar completamente (o servidor precisa “acordar”).  
+> - Depois desse carregamento inicial, a navegação volta a ser **normal e rápida**.  
+>
+> Essa é uma limitação natural do plano gratuito, mas ideal para **projetos em fase de MVP** 💡
+
+---
+
+## 🧠 Entendendo o Deploy no Render
+
+O **Render** é uma plataforma de deploy simplificada para aplicações **Python/Django**, **Node**, entre outras.  
+No caso do FocusGreen, o deploy foi feito a partir do repositório GitHub, com as seguintes etapas:
+
+1. **Conexão com o GitHub:** o Render clona automaticamente o repositório.  
+2. **Build automático:** ele instala o Python  e executa o comando definido no `build.sh`.  
+3. **Criação do ambiente:** as dependências do `requirements.txt` são instaladas e as variáveis do `.env` são carregadas.  
+4. **Migrações e inicialização:** o Render executa as migrações do Django e inicia o servidor Gunicorn.  
+5. **Deploy contínuo:** sempre que um novo commit é feito no branch principal (`main`), o Render atualiza o projeto automaticamente.  
+
+---
+
+## 🚀 Status do Deploy
+
+| Ambiente | URL | Status |
+|-----------|-----|--------|
+| Produção (Render Free) | [https://focusgreen.onrender.com](https://focusgreen.onrender.com) | 🟢 Online (hiberna se inativo) |
+
+---
+
+
 ## 🚧 Status do Projeto
 
 🟢 **MVP em desenvolvimento ativo** — versão funcional construída com **Django**, **Bootstrap** e **integração com IA**.  
